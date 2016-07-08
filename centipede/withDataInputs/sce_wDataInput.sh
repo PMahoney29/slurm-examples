@@ -28,8 +28,14 @@ STEPSIZE=2                 		# number of consecutive loops in SCRIPT to run in
                            		# the same job / node (increase for short jobs)
                            		# MAXARRAYSIZE MUST be divisible by STEPSIZE
 
+#################### Add R to the environment (will vary by HPC) ############
+
+. /rc/tools/utils/dkinit
+reuse -q R
+
 ############## typically you don't have to change anything below here #######
 
+export DATADIR
 username=$(id -nu)
 listsize=$(${SCRIPT} listsize)   # call SCRIPT to get the number of loops
 
@@ -46,7 +52,6 @@ mkdir -p "${RESULTDIR}"
 export MYSCRATCH           # set static vars globally so cluster jobs launched
 export RESULTDIR           # from this script can read them as an environment
 export STEPSIZE            # variables
-export DATADIR
 
 echo "  using $SCRIPT with args $@..."
 
